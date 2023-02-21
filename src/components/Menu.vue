@@ -1,5 +1,5 @@
 <template>
-  <nav class="menu">
+  <nav class="menu-lateral">
     <ul>
       <li>
         <router-link to="/">Inicio</router-link>
@@ -33,37 +33,40 @@
 </template>
 
 <style scoped>
-.menu {
-  width: 100%;
-  height: 50px;
-  background-color: #333;
-  color: white;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.menu-lateral {
+  background-color: #2c3e50;
+  color: #fff;
+  padding: 1rem;
+  width: 25%;
+  position: relative;
+}
+
+.menu-titulo {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 ul {
-  list-style: none;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  margin: 0;
+  list-style-type: none;
   padding: 0;
+  margin: 0;
 }
 
 li {
-  margin-right: 15px;
+  margin-bottom: 0.5rem;
 }
 
 a {
-  color: white;
+  color: #fff;
   text-decoration: none;
-  font-size: 16px;
-  font-weight: bold;
 }
 
 a:hover {
   text-decoration: underline;
+}
+
+.contenido {
+  padding: 1rem;
+  width: 75%;
 }
 </style>

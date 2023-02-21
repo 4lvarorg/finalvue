@@ -16,7 +16,7 @@
       </select>
     </div>
     <div v-if="!vehiculosFiltrados.length">No se han encontrado vehículos</div>
-    <div v-else>
+    <div >
       <table>
         <thead>
         <tr>
@@ -26,15 +26,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="vehiculo in vehiculosFiltrados" :key="vehiculo.id">
-          <td>{{ modeloPorId(vehiculo.idModelo)?.modelo }}</td>
+        <tr v-for="vehiculo in vehiculos" :key="vehiculo.id">
+          <td>{{ modeloPorId(vehiculo.idModelo).modelo }}</td>
           <td>{{ vehiculo.precioDia }} €</td>
           <td>
-            <ul>
-              <li v-for="alquiler in alquileresPorVehiculo(vehiculo.id)" :key="alquiler.id">
-                {{ clientePorId(alquiler.idCliente)?.nombre }} ({{ alquiler.numDias }} días)
-              </li>
-            </ul>
+          <ul>
+
+           <li v-for="alquiler in alquileresPorVehiculo(vehiculo.id)" :key="alquiler.id">
+               {{ clientePorId(alquiler.idCliente)}}
+             </li>
+           </ul>
           </td>
         </tr>
         </tbody>
@@ -61,6 +62,7 @@ export default {
       modelos: [],
       vehiculos: [],
       clientes: [],
+      alquileres:[],
       marcaSeleccionada: '',
       modeloSeleccionado: '',
       modelosFiltrados: [],
@@ -84,6 +86,7 @@ export default {
 
       const responseClientes = await axios.get('http://localhost:3000/clientes');
       this.clientes = responseClientes.data;
+
     },
     cargarModelos() {
       const marcaSeleccionada = this.marcaSeleccionada;
@@ -111,6 +114,23 @@ export default {
       await axios.post('http://localhost:3000/vehiculos', nuevoVehiculo);
       this.obtenerDatos();
       this.mostrarFormulario = false;
+    },
+    modeloPorId(idModelo){
+      return this.modelos.find(modelo => modelo.id === idModelo);
+    },
+    alquileresPorVehiculo(idVehiculo){
+   this.clientes.forEach(cliente => {
+     if(cliente.alquileres){
+       cliente.alquileres.forEach(alquiler => {
+         if (alquiler.vehiculo === idVehiculo) {
+           return cliente.nombre;
+         }
+       });
+     }else{
+       return 'no tiene alquileres';
+     }
+
+    });
     },
     cargarVehiculos() {
       const marcaSeleccionada = this.marcaSeleccionada;
